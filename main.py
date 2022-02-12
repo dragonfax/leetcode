@@ -1,4 +1,6 @@
 from typing import Optional, List
+from time import perf_counter
+
 
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
@@ -24,11 +26,14 @@ class Solution:
       return largestSubLen
 
 def test(s, e):
+  start = perf_counter()
   a = Solution().lengthOfLongestSubstring(s)
-  print(f"{s}=> {a} == {a == e}")
+  end = perf_counter()
+  print(f"{s}=> {a} == {a == e} {end - start}")
 
 test("abcabcbb",3)
 test("bbbbbbbb",1)
 test("pwwkew",3)
 test("aab",2)
 
+test("abcdefghijklmnopqrstufwxyz0123456789abcdefghijklmnopqrstufwxyz0123456789abcdefghijklmnopqrstufwxyz0123456789abcdefghijklmnopqrstufwxyz0123456789",35)
