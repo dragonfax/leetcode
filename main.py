@@ -15,7 +15,7 @@ class Solution:
             longest = p
 
         if i < len(s)-1 and s[i] == s[i+1]:
-          # see if there is a longer paindrom with this as both center
+          # see if there is a longer palindrome with this as both center
           p = self.findPalindrome(s,i, i+1)
           if p:
             if len(p) > len(longest):
