@@ -11,27 +11,19 @@ class ListNode:
 
 class Solution:
     def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
-      prev = None
-      newhead = None
-      while head:
+      if not head:
+        return None
 
-        a = head
-        b = head.next
-        rest = b.next if b else None
+      a = head
+      b = a.next
+      if not b:
+        return a
+      rest = b.next
 
-        if b:
-          b.next = a
-        a.next = rest
-        if prev:
-          prev.next = b if b else a
+      b.next = a
+      a.next = self.swapPairs(rest)
 
-        if not newhead:
-          newhead = b if b else a
-
-        prev = a
-        head = rest
-
-      return newhead
+      return b
 
 
 
