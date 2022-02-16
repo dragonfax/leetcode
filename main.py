@@ -11,7 +11,32 @@ class ListNode:
 
 class Solution:
     def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        pass
+      pair = head
+      prev = None
+      head2 = None
+      while pair:
+        newhead, prev, pair = self.swapPair(prev,pair)
+        if not head2:
+          head2 = newhead
+      return head2
+
+    def swapPair(self,prev,pair):
+      if not pair:
+        return None, None, None
+      
+      a = pair
+      b = a.next
+      if not b:
+        return a, None, None
+
+      tmp = b.next
+      b.next = a
+      a.next = tmp
+      if prev:
+        prev.next = b
+
+      return b, a,a.next
+
 
 def toList(s):
   root = None
@@ -51,6 +76,8 @@ def test(s, e):
 
 
 test([1,2,3,4],[2,1,4,3])
+test([1,2,3,4,5,6,7,8,9], [2, 1, 4, 3, 6, 5, 8, 7, 9])
+test([1,2],[2,1])
 test([],[])
 test([1], [1])
 
