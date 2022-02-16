@@ -3,43 +3,54 @@ from time import perf_counter
 from collections import defaultdict
 
 
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
 class Solution:
-    def longestPalindrome(self, s: str) -> str:
-      longest = ""
-      i = 0
-      while i < len(s):
-        # find the longest palindrome with this center
-        p = self.findPalindrome(s,i, i)
-        if p:
-          if len(p) > len(longest):
-            longest = p
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        pass
 
-        if i < len(s)-1 and s[i] == s[i+1]:
-          # see if there is a longer palindrome with this as both center
-          p = self.findPalindrome(s,i, i+1)
-          if p:
-            if len(p) > len(longest):
-              longest = p
-        i += 1
-      return longest
+def toList(s):
+  root = None
+  prev = None
+  for v in s:
+    n = ListNode(val=v)
+    if prev:
+      prev.next = n
+    else:
+      root = n
+    prev = n
 
-    def findPalindrome(self, s: str, i: int, j: int) -> str:
-      prev = s[i:j+1]
-      while i > 0 and j < len(s)-1:
-        i -= 1
-        j += 1
-        if s[i] != s[j]:
-          break
-        prev = s[i:j+1]
-      return prev
+  return root
+    
+l = toList([3,2,1])
+assert l.val == 3
+assert l.next.val == 2
+
+def fromList(n):
+  l = []
+  while n:
+    l.append(n.val)
+    n = n.next
+  return l
+
+l = fromList(ListNode(val=4,next=ListNode(val=5))) 
+assert l == [4,5],l
 
 
 def test(s, e):
+  sl = toList(s)
   start = perf_counter()
-  a = Solution().longestPalindrome(s)
+  al = Solution().swapPairs(sl)
   end = perf_counter()
+  a = fromList(al)
   print(f"{s}=> {a} == {a == e} {end - start}")
 
-test("babad","bab")
-test("cbbd","bb")
+
+test([1,2,3,4],[2,1,4,3])
+test([],[])
+test([1], [1])
 
