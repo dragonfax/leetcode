@@ -11,23 +11,22 @@ class ListNode:
 
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-      s = self.combination(candidates, target)
-      return [list(t) for t in s]
+      return self.combination(candidates, target)
 
-    def combination(self, candidates, target): #  -> set[Tuple]:
-      answers = set()
+    def combination(self, candidates, target): #  -> List[Tuple]:
+      answers = []
       x = len(candidates)-1
       while x >= 0:
         i = candidates[x]
         new_target = target - i
         if new_target == 0:
-          answers.add((i,))
+          answers.append([i])
         if new_target > 0:
           s = self.combination(candidates, new_target)
           if s:
             for t in s:
-              t = (i,) + t
-              answers.add(t)
+              t = [i] + t
+              answers.append(t)
         candidates = candidates[0:x]
         x -= 1
         
