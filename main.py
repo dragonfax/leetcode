@@ -14,20 +14,23 @@ class Solution:
       return self.combination(candidates, target)
 
     def combination(self, candidates, target): #  -> List[Tuple]:
-      answers = []
+      answers = None
       x = len(candidates)-1
       while x >= 0:
         i = candidates[x]
         new_target = target - i
         if new_target == 0:
+          if not answers:
+            answers = []
           answers.append([i])
         if new_target > 0:
-          s = self.combination(candidates, new_target)
+          s = self.combination(candidates[0:x+1], new_target)
           if s:
             for t in s:
               t = [i] + t
+              if not answers:
+                answers = []
               answers.append(t)
-        candidates = candidates[0:x]
         x -= 1
         
       return answers
