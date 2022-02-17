@@ -19,15 +19,17 @@ class Solution:
       answers = set()
       for i in candidates:
         new_target = target - i
-        if target < 0:
+        if new_target < 0:
           continue
-        if target == 0:
+        if new_target == 0:
           answers.add((i,))
-        if target > 0:
+        if new_target > 0:
           s = self.combination(candidates, new_target)
           if s:
             for t in s:
-              t = (i,) + t
+              l = [i] + list(t)
+              l.sort()
+              t = tuple(l)
               answers.add(t)
       return answers
 
