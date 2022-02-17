@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional, List, Tuple
 from time import perf_counter
 from collections import defaultdict
 
@@ -10,21 +10,26 @@ class ListNode:
 
 
 class Solution:
-    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
-      if not head:
-        return None
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+      candidates.sort()
+      s = self.combination(candidates, target)
+      return [list(t) for t in s]
 
-      a = head
-      b = a.next
-      if not b:
-        return a
-      rest = b.next
-
-      b.next = a
-      a.next = self.swapPairs(rest)
-
-      return b
-
+    def combination(self, candidates, target): #  -> set[Tuple]:
+      answers = set()
+      for i in candidates:
+        new_target = target - i
+        if target < 0:
+          continue
+        if target == 0:
+          answers.add((i,))
+        if target > 0:
+          s = self.combination(candidates, new_target)
+          if s:
+            for t in s:
+              t = (i,) + t
+              answers.add(t)
+      return answers
 
 
 def toList(s):
@@ -55,18 +60,20 @@ l = fromList(ListNode(val=4,next=ListNode(val=5)))
 assert l == [4,5],l
 
 
-def test(s, e):
+def testList(s, e):
   sl = toList(s)
   start = perf_counter()
   al = Solution().swapPairs(sl)
   end = perf_counter()
   a = fromList(al)
   print(f"{s}=> {a} == {a == e} {end - start}")
+  
+def test(s, t, e):
+  start = perf_counter()
+  a = Solution().combinationSum(s, t)
+  end = perf_counter()
+  print(f"{s}=> {a} == {a == e} {end - start}")
 
+test([2,3,6,7], 7, [[2,2,3],[7]])
 
-test([1,2,3,4],[2,1,4,3])
-test([1,2,3,4,5,6,7,8,9], [2, 1, 4, 3, 6, 5, 8, 7, 9])
-test([1,2],[2,1])
-test([],[])
-test([1], [1])
 
