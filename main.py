@@ -11,9 +11,16 @@ class ListNode:
 
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-      candidates.sort()
+      # candidates.sort()
       s = self.combination(candidates, target)
-      return [list(t) for t in s]
+      
+      s2 = set()
+      for t in s:
+        l = list(t)
+        l.sort()
+        s2.add(tuple(l))
+        
+      return [list(t) for t in s2]
 
     def combination(self, candidates, target): #  -> set[Tuple]:
       answers = set()
@@ -27,9 +34,10 @@ class Solution:
           s = self.combination(candidates, new_target)
           if s:
             for t in s:
-              l = [i] + list(t)
-              l.sort()
-              t = tuple(l)
+              #l = [i] + list(t)
+              #l.sort()
+              #t = tuple(l)
+              t = (i,) + t
               answers.add(t)
       return answers
 
