@@ -10,30 +10,21 @@ class ListNode:
 
 
 class Solution:
-    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-      return self.combination(candidates, target)
+    def removeKdigits(self, num: str, k: int) -> str:
+      if k == 0:
+        return num
 
-    def combination(self, candidates, target): #  -> List[Tuple]:
-      answers = None
-      x = len(candidates)-1
-      while x >= 0:
-        i = candidates[x]
-        new_target = target - i
-        if new_target == 0:
-          if not answers:
-            answers = []
-          answers.append([i])
-        if new_target > 0:
-          s = self.combination(candidates[0:x+1], new_target)
-          if s:
-            for t in s:
-              t = [i] + t
-              if not answers:
-                answers = []
-              answers.append(t)
-        x -= 1
-        
-      return answers
+      best_new_num = num
+      for i in range(len(num)):
+        new_num = num[0:i] + num[i+1:]
+        new_num = new_num if new_num else "0"
+        k2 = k - 1
+        best = self.removeKdigits(new_num, k2)
+        if int(best) < int(best_new_num):
+          best_new_num = best
+
+      return str(int(best_new_num))
+          
 
 
 def toList(s):
@@ -74,10 +65,12 @@ def testList(s, e):
   
 def test(s, t, e):
   start = perf_counter()
-  a = Solution().combinationSum(s, t)
+  a = Solution().removeKdigits(s, t)
   end = perf_counter()
   print(f"{s}=> {a} == {a == e} {end - start}")
 
-test([2,3,6,7], 7, [[2,2,3],[7]])
+test("1432219",3,"1219")
+test("10200",1,"200")
+test("10",2,"0")
 
 
