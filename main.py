@@ -17,7 +17,7 @@ class Solution:
   def median(self, nums: List[int]) -> int:
     return sum(nums) / len(nums)
 
-  def isEven(self, num) -> bool:
+  def isEven(self, num: int) -> bool:
     return num % 2 == 0
 
   def indexOfLargest(self, nums: List[int]) -> int:
@@ -61,22 +61,22 @@ class Solution:
     if num > median:
       # decrease num, or increase others
       if self.isEven(num):
-        nums[largestDeviationIndex] /= 2
+        nums[largestDeviationIndex] = int(nums[largestDeviationIndex] / 2)
       else:
         # find the lowest, can we multiply it?
         smallestIndex = self.indexOfSmallest(nums)
         smallestNum = nums[smallestIndex]
         if not self.isEven(smallestNum):
-          nums[smallestIndex] *= 2
+          nums[smallestIndex] = int(nums[smallestIndex] * 2)
     else:
       # increase num or decrease others
       if not self.isEven(num):
-        nums[largestDeviationIndex] *= 2
+        nums[largestDeviationIndex] = int(nums[largestDeviationIndex] * 2)
       else:
         largestIndex = self.indexOfLargest(nums)
         largestNum = nums[largestIndex]
         if self.isEven(largestNum):
-          nums[largestIndex] /= 2
+          nums[largestIndex] = int(nums[largestIndex] / 2)
 
     print(f"{nums} {self.deviation(nums)}")
 
@@ -128,5 +128,6 @@ test([1,2,3,4],1)
 test([4,1,5,20,3],3)
 test([2,10,8],3)
 test([3,5],1)
+test([2,8,6,1,6],1)
 
  
