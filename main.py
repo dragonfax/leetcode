@@ -20,6 +20,9 @@ class Solution:
   def isEven(self, num: int) -> bool:
     return num % 2 == 0
 
+  def isOdd(self, num: int) -> bool:
+    return not self.isEven(num)
+
   def indexOfLargest(self, nums: List[int]) -> int:
     largestNum = nums[0]
     largestIndex = 0
@@ -54,36 +57,18 @@ class Solution:
   def minimumDeviationRound(self, nums: List[int]) -> Tuple[List[int],int]:
     nums = self.unique(nums.copy()) # todo
     
-    lowest = self.deviation(nums)
+    lowest = min(nums)
+    highest = max(nums)
 
-    median = self.median(nums)
-    deviations = [ max(median,x) - min(median,x) for x in nums]
-    largestDeviationIndex = self.indexOfLargest(deviations)
-
-    num = nums[largestDeviationIndex]
-    if num > median:
-      # decrease num, or increase others
-      if self.isEven(num):
-        smallest = min(nums)
-        for i in range(len(nums)):
-          if self.isEven(nums[i]) and nums[i] / 2 >= smallest:
-            nums[i] = int(nums[i] / 2)
-      else:
-        # find the lowest, can we multiply it?
-        for i in range(len(nums)):
-          if not self.isEven(nums[i]) and nums[i] * 2 <= num:          
-            nums[i] = int(nums[i] * 2)
-    else:
-      # increase num or decrease others
-      if not self.isEven(num):
-        largest = max(nums)
-        for i in range(len(nums)):
-          if not self.isEven(nums[i]) and nums[i] * 2 <= largest:
-            nums[i] = int(nums[i] * 2)
-      else:
-        for i in range(len(nums)):
-          if self.isEven(nums[i]) and nums[i] / 2 >= num:
-            nums[i] = int(nums[i] / 2)
+    if self.isOdd(lowest):
+      # multply
+      for i in range(len(nums)):
+        if self.isOdd(nums[i]) and nums[i] * 2 <= highest:
+          nums[i] = int(nums[i] * 2)
+    if self.isEven(highest):
+      for i in range(len(nums)):
+        if self.isEven(nums[i]) and nums[i] / 2 >= lowest:
+          nums[i] = int(nums[i] / 2)
 
     print(f"{str(nums)[:20]} {self.deviation(nums)}")
 
