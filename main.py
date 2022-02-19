@@ -67,19 +67,17 @@ class Solution:
         nums[largestDeviationIndex] = int(nums[largestDeviationIndex] / 2)
       else:
         # find the lowest, can we multiply it?
-        smallestIndex = self.indexOfSmallest(nums)
-        smallestNum = nums[smallestIndex]
-        if not self.isEven(smallestNum):
-          nums[smallestIndex] = int(nums[smallestIndex] * 2)
+        for i in range(len(nums)):
+          if not self.isEven(nums[i]) and nums[i] * 2 <= num:          
+            nums[i] = int(nums[i] * 2)
     else:
       # increase num or decrease others
       if not self.isEven(num):
         nums[largestDeviationIndex] = int(nums[largestDeviationIndex] * 2)
       else:
-        largestIndex = self.indexOfLargest(nums)
-        largestNum = nums[largestIndex]
-        if self.isEven(largestNum):
-          nums[largestIndex] = int(nums[largestIndex] / 2)
+        for i in range(len(nums)):
+          if self.isEven(nums[i]) and nums[i] / 2 >= num:
+            nums[i] = int(nums[i] / 2)
 
     print(f"{str(nums)[:20]} {self.deviation(nums)}")
 
