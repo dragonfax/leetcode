@@ -52,7 +52,7 @@ class Solution:
     return int(min(dev,previousDev))
   
   def minimumDeviationRound(self, nums: List[int]) -> Tuple[List[int],int]:
-    nums = nums.copy()
+    nums = self.unique(nums.copy()) # todo
     
     lowest = self.deviation(nums)
 
@@ -64,7 +64,10 @@ class Solution:
     if num > median:
       # decrease num, or increase others
       if self.isEven(num):
-        nums[largestDeviationIndex] = int(nums[largestDeviationIndex] / 2)
+        smallest = min(nums)
+        for i in range(len(nums)):
+          if self.isEven(nums[i]) and nums[i] / 2 >= smallest:
+            nums[i] = int(nums[i] / 2)
       else:
         # find the lowest, can we multiply it?
         for i in range(len(nums)):
@@ -73,7 +76,10 @@ class Solution:
     else:
       # increase num or decrease others
       if not self.isEven(num):
-        nums[largestDeviationIndex] = int(nums[largestDeviationIndex] * 2)
+        largest = max(nums)
+        for i in range(len(nums)):
+          if not self.isEven(nums[i]) and nums[i] * 2 <= largest:
+            nums[i] = int(nums[i] * 2)
       else:
         for i in range(len(nums)):
           if self.isEven(nums[i]) and nums[i] / 2 >= num:
