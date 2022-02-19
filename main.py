@@ -62,13 +62,26 @@ class Solution:
 
     if self.isOdd(lowest):
       # multply
-      for i in range(len(nums)):
-        if self.isOdd(nums[i]) and nums[i] * 2 <= highest:
-          nums[i] = int(nums[i] * 2)
-    if self.isEven(highest):
-      for i in range(len(nums)):
-        if self.isEven(nums[i]) and nums[i] / 2 >= lowest:
-          nums[i] = int(nums[i] / 2)
+      i = len(nums) - 1
+      while i >= 0:
+        if self.isOdd(nums[i]):
+          tmpnums = nums.copy()
+          tmpnums[i] = int(tmpnums[i] * 2)
+          if self.deviation(tmpnums) < self.deviation(nums):
+            nums = self.unique(tmpnums)
+            break
+        i -= 1
+        
+    elif self.isEven(highest):
+      i = len(nums) - 1
+      while i >= 0:
+        if self.isEven(nums[i]):
+          tmpnums = nums.copy()
+          tmpnums[i] = int(tmpnums[i] / 2)
+          if self.deviation(tmpnums) < self.deviation(nums):
+            nums = self.unique(tmpnums)
+            break
+        i -= 1
 
     print(f"{str(nums)[:20]} {self.deviation(nums)}")
 
