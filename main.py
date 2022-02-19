@@ -39,12 +39,14 @@ class Solution:
     return smallestIndex
 
   def minimumDeviation(self, nums: List[int]) -> int:
+    print("")
+    print(f"{nums} {self.deviation(nums)} start")
     previousDev = None
     newNums, dev = self.minimumDeviationRound(nums)
     while previousDev is None or dev < previousDev:
       previousDev = dev
       newNums, dev = self.minimumDeviationRound(newNums)
-    return int(dev)
+    return int(min(dev,previousDev))
   
   def minimumDeviationRound(self, nums: List[int]) -> Tuple[List[int],int]:
     nums = nums.copy()
@@ -75,6 +77,8 @@ class Solution:
         largestNum = nums[largestIndex]
         if self.isEven(largestNum):
           nums[largestIndex] /= 2
+
+    print(f"{nums} {self.deviation(nums)}")
 
     return (nums,self.deviation(nums))
 
