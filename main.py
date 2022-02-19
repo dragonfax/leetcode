@@ -10,9 +10,73 @@ class ListNode:
 
 
 class Solution:
-    def minimumDeviation(self, nums: List[int]) -> int:
-       pass
 
+  def deviation(self, nums: List[int]) -> int:
+    return max(nums) - min(nums)
+
+  def median(self, nums: List[int]) -> int:
+    return sum(nums) / len(nums)
+
+  def isEven(self, num) -> bool:
+    return num % 2 == 0
+
+  def indexOfLargest(self, nums: List[int]) -> int:
+    largestNum = nums[0]
+    largestIndex = 0
+    for i in range(len(nums)):
+      if nums[i] > largestNum:
+        largestNum = nums[i]
+        largestIndex = i
+    return largestIndex
+
+  def indexOfSmallest(self, nums: List[int]) -> int:
+    smallestNum = nums[0]
+    smallestIndex = 0
+    for i in range(len(nums)):
+      if nums[i] < smallestNum:
+        smallestNum = nums[i]
+        smallestIndex = i
+    return smallestIndex
+
+  def minimumDeviation(self, nums: List[int]) -> int:
+    previousDev = None
+    newNums, dev = self.minimumDeviationRound(nums)
+    while previousDev is None or dev < previousDev:
+      previousDev = dev
+      newNums, dev = self.minimumDeviationRound(newNums)
+    return int(dev)
+  
+  def minimumDeviationRound(self, nums: List[int]) -> Tuple[List[int],int]:
+    nums = nums.copy()
+    
+    lowest = self.deviation(nums)
+
+    median = self.median(nums)
+    deviations = [ max(median,x) - min(median,x) for x in nums]
+    largestDeviationIndex = self.indexOfLargest(deviations)
+
+    num = nums[largestDeviationIndex]
+    if num > median:
+      # decrease num, or increase others
+      if self.isEven(num):
+        nums[largestDeviationIndex] /= 2
+      else:
+        # find the lowest, can we multiply it?
+        smallestIndex = self.indexOfSmallest(nums)
+        smallestNum = nums[smallestIndex]
+        if not self.isEven(smallestNum):
+          nums[smallestIndex] *= 2
+    else:
+      # increase num or decrease others
+      if not self.isEven(num):
+        nums[largestDeviationIndex] *= 2
+      else:
+        largestIndex = self.indexOfLargest(nums)
+        largestNum = nums[largestIndex]
+        if self.isEven(largestNum):
+          nums[largestIndex] /= 2
+
+    return (nums,self.deviation(nums))
 
 def toList(s):
   root = None
@@ -59,5 +123,6 @@ def test(s, e):
 test([1,2,3,4],1)
 test([4,1,5,20,3],3)
 test([2,10,8],3)
+test([3,5],1)
 
  
