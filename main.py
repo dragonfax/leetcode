@@ -38,6 +38,9 @@ class Solution:
         smallestIndex = i
     return smallestIndex
 
+  def unique(self, nums: List[int]) -> List[int]:
+    return list({x : True for x in nums})
+
   def minimumDeviation(self, nums: List[int]) -> int:
     print("")
     print(f"{nums} {self.deviation(nums)} start")
@@ -80,7 +83,7 @@ class Solution:
 
     print(f"{nums} {self.deviation(nums)}")
 
-    return (nums,self.deviation(nums))
+    return (self.unique(nums),self.deviation(nums))
 
 def toList(s):
   root = None
