@@ -24,6 +24,18 @@ class Solution:
 
       return b
 
+    def len(self, head):
+      i = 0
+      while head:
+        head = head.next
+        i += 1
+      return i
+
+    def index(self, head, i):
+      while head and i > 0:
+        head = head.next
+        i -= 1
+      return head
       
     def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
 
@@ -45,6 +57,7 @@ class Solution:
             if first:
               head = curr
             didWork = True
+            break
   
           first = False
   
@@ -95,6 +108,11 @@ def test(s, e):
   a = Solution().minimumDeviation(s)
   end = perf_counter()
   print(f"{str(s)[:20]} => {a} == {e} {a == e}")
+
+
+assert Solution().len(toList([0,1,2,3,4])) == 5
+
+assert fromList(Solution().index(toList([0,1,2,3,4]),3)) == [3,4]
 
 answer = fromList(Solution().swap(None,toList([0,1])))
 assert answer == [1,0], answer
