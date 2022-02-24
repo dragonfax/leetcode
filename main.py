@@ -65,57 +65,9 @@ class Solution:
 
       expNums.append(s)
 
-    # remove highest, until we can't
-    done = False
-    while not done:
-      print(expNums)
-
-      # find highest
-      highest = 0
-      for s in expNums:
-        l = list(s)
-        l.sort()
-        h = l[-1]
-        if h > highest:
-          highest = h
-
-      print(f"highest is {highest}")
-
-      # remove highest
-      for s in expNums:
-        if highest in s:
-          if len(s) == 1:
-            done = True
-            break
-          else:
-            s.remove(highest)
-
-    # remove lowest
-    done = False
-    while not done:
-      print(expNums)
-
-      lowest = None
-      for s in expNums:
-        l = list(s)
-        l.sort()
-        low = l[0]
-        if lowest is None or low < lowest:
-          lowest = low
-
-      print(f"lowest is {lowest}")
-
-      for s in expNums:
-        if lowest in s:
-          if len(s) == 1:
-            done = True
-            break
-          else:
-            s.remove(lowest)
-
-    finalNums = [s.pop() for s in expNums]
-    print(finalNums)
-    return max(finalNums) - min(finalNums)
+    for s in self.generateSets(expNums):
+      
+    
 
 def toList(s):
   root = None
