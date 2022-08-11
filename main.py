@@ -23,30 +23,32 @@ class TreeNode:
         
       
 class Solution:
-    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
+    def isValidBST(self, root: Optional[TreeNode], minimum: Optional[int] = None, maximum: Optional[int] = None) -> bool:
+      if not root:
+        return True
 
-      if not nums:
-        return None
+      if minimum and root.val <= minimum:
+        return False
 
-      if len(nums) == 1:
-        return TreeNode(nums[0])
-      
-      from math import floor
-      rootIndex = floor(len(nums)/2)
+      if maximum and root.val >= maximum:
+        return False
 
-      rootValue = nums[rootIndex]
+      if root.left:
+        if root.left.val >= root.val:
+          return False
+          
+        if not self.isValidBST(root.left, minimum=minimum, maximum=root.val):
+          return False
 
-      leftNode = None
-      rightNode = None
+      if root.right:
 
-      if rootIndex > 0:
-        leftNode = self.sortedArrayToBST(nums[0:rootIndex])
-      if rootIndex + 1 < len(nums):
-        rightNode = self.sortedArrayToBST(nums[rootIndex + 1: len(nums)])
-      
-      root = TreeNode(rootValue, leftNode, rightNode)
-      
-      return root
+        if root.right.val <= root.val:
+          return False
+          
+        if not self.isValidBST(root.right, minimum=root.val, maximum=maximum):
+          return False
+
+      return True
 
 
 
